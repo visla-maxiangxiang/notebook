@@ -14,15 +14,6 @@ $作用于集合S中的二元运算*是结合的\ <=>\ all(a*(b*c)==a*(b*c)\ for
 $作用于集合S中的二元运算*是交换的\ <=>\ all(a*b==b*a\ for\ a,b \in S^2)$
 
 ## 半群
-
-**半群的定义：**
-$集合X与其上的二元运算符*所组成的二元组(X,*)称为一个半群\ <=>\ all((a*b)*c==a*(b*c)\ for\ a,b,c \in X^3)$
-**无限可数半群的定义：**
-$\{(X,*)是一个半群;\{(X,*)是无限可数半群\ <=>\ X是一个无限可数集合\}\}$
-**无限不可数半群的定义:**
-$\{(x,*)是一个半群;\{(x,*)是无限不可数半群\ <=>\ X是一个无限不可数集合}\}$
-**有限半群的定义:**
-$\{(X,*)是一个半群;\{(x,*)是有半群\ <=>\ X是一个有限集合\}\}$
 **实现**
 
 ```python3
@@ -305,3 +296,32 @@ def composition(f, g)->Callable:
 **函数的加法:**$h=f\bigoplus g:=h(x)=f(x)+g(x)$
 **函数的乘法:**$h=f\bigotimes g:=h(x)==f(x)*g(x)$
 **函数环的定义:**$Ring(R^X,\bigoplus,\bigotimes)$
+
+**整环**在环R中，如果a!=0,b!-=0，但ab=0，则a叫作左零因子，而b叫作右零因子（在交换环R中简称为零因子）。在非零环R中，零本身叫作平凡零因子。如果环R除0外没有其它的零因子，则R叫作无零因子环。如果一个交换环R含有1!=0，并且无零因子，则称R为整环（整性环或具有整性）。
+def isIntegralRing(R: Ring)->bool:
+    if not isCommutativeRing(R): return False #必须是交换环
+    if R.one()!=None and R.one()==R.zero(): return False #存在乘法单位元1，并且乘法单位元1不等于加法单位元0.
+    #R必须没有非平凡零因子。
+    for a,b in R*R:
+        if a!=0 and b!=0:
+            if a*b==0: return False
+    return True
+
+#判定环R中是否存在元素g的逆元素
+def hasReverse(g, R):
+    if not R.one(): return False #如果R不存在单位元，则R中
+    for h in R:
+        if g*h==R.one() and h*g==R.one():
+            return True
+    return False
+
+**唯一因子分解环**
+def isUniqueFactorizationDomain(R: Ring)->:
+    if not isIntegralRing(R): return False #必须是整环
+    for a in in R:
+        while hasReverse(a,R):
+            continue
+            for b in R:
+                if b.hasReverse(a,R):
+                    continue
+                if b
